@@ -1,0 +1,6 @@
+.issuerow {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--mantine-color-gray-0);
+  }
+}

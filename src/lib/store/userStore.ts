@@ -33,7 +33,7 @@ export const useUserStore = create<UserState>((set) => ({
   },
   subscribe: () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      set({ user: session?.user ?? null, loading: false });
+      set({ user: session?.user ?? null });
     });
     return () => {
       subscription.unsubscribe();

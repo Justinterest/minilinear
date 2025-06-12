@@ -16,8 +16,10 @@ export default function AuthProvider({
     return subscribe();
   }, []);
 
+  console.log("loading", loading);
+
   if (loading) {
-    return <LoadingOverlay visible={loading} />;
+    return <LoadingOverlay visible={loading} loaderProps={{ type: "bars" }} />;
   }
 
   return <>{children}</>;

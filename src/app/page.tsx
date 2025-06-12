@@ -1,28 +1,28 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import LoginForm from '@/components/LoginForm'
-import { Container, LoadingOverlay } from '@mantine/core'
-import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/lib/store/userStore'
+import { useEffect } from "react";
+import LoginForm from "@/components/LoginForm";
+import { Container, LoadingOverlay } from "@mantine/core";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/lib/store/userStore";
 
 export default function Home() {
-  const router = useRouter()
-  const { user, loading } = useUserStore()
+  const router = useRouter();
+  const { user, loading } = useUserStore();
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/dashboard')
+      router.push("/dashboard");
     }
-  }, [user, loading, router])
+  }, [user, loading, router]);
 
   if (loading) {
-    return <LoadingOverlay visible />
+    return <LoadingOverlay visible />;
   }
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md">
       <LoginForm />
     </Container>
-  )
+  );
 }

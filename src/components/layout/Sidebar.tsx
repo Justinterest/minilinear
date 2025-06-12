@@ -13,6 +13,7 @@ import {
   Stack,
   useMantineTheme,
   LoadingOverlay,
+  Drawer,
 } from "@mantine/core";
 import {
   IconInbox,
@@ -26,6 +27,7 @@ import {
 } from "@tabler/icons-react";
 import { useUserStore } from "@/lib/store/userStore";
 import { useWorkspaceStore } from "@/lib/store/workspaceStore";
+import { useGlobalStore } from "@/lib/store/globalStore";
 
 export default function DashboardSidebar() {
   const theme = useMantineTheme();
@@ -37,6 +39,7 @@ export default function DashboardSidebar() {
     fetchWorkspaces,
     setCurrentWorkspace,
   } = useWorkspaceStore();
+  const { sidebarOpened, setSidebarOpened } = useGlobalStore();
 
   useEffect(() => {
     if (user) {
@@ -48,9 +51,12 @@ export default function DashboardSidebar() {
     return <LoadingOverlay visible />;
   }
 
-  return (
+  const sidebarcontent = (
     <Box h="100vh" style={{ display: "flex", flexDirection: "column" }}>
-      <Box p="md" style={{ borderBottom: `1px solid ${theme.colors.gray[2]}` }}>
+      <Box
+        p={{ base: "xs", md: "md" }}
+        style={{ borderBottom: `1px solid ${theme.colors.gray[2]}` }}
+      >
         <Menu width={240} position="bottom-start" offset={5}>
           <Menu.Target>
             <Button
@@ -61,11 +67,11 @@ export default function DashboardSidebar() {
               rightSection={<IconChevronDown size={16} />}
               px="xs"
             >
-              <Group gap="xs">
+              <Group gap="xs" wrap="nowrap">
                 <Avatar color="orange" size="sm" radius="sm">
                   TE
                 </Avatar>
-                <Text fw={500} size="sm">
+                <Text fw={500} size="sm" truncate>
                   {currentWorkspace ? currentWorkspace.name : "选择工作区"}
                 </Text>
               </Group>
@@ -157,6 +163,27 @@ export default function DashboardSidebar() {
           </Box>
         </Stack>
       </ScrollArea>
+    </Box>
+  );
+
+  return (
+    <Box>
+      {sidebarcontent}
+      <Drawer
+        withCloseButton={false}
+        opened={sidebarOpened}
+        onClose={() => setSidebarOpened(false)}
+        styles={{
+          inner: {
+            width: "80%",
+          },
+          body: {
+            padding: "0",
+          },
+        }}
+      >
+        {sidebarcontent}
+      </Drawer>
     </Box>
   );
 }

@@ -2,22 +2,19 @@ import { AppShell } from "@mantine/core";
 
 import AuthGuard from "../AuthGuard";
 import DashboardSidebar from "./Sidebar";
-import { useGlobalStore } from "@/lib/store/globalStore";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { sidebarOpened } = useGlobalStore();
-
   return (
     <AuthGuard>
       <AppShell
         navbar={{
           width: { base: 100, md: 280 },
           breakpoint: "sm",
-          collapsed: { mobile: !sidebarOpened },
+          collapsed: { mobile: true },
         }}
       >
         {/* <AppShell.Header hiddenFrom="md">

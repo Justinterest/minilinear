@@ -16,6 +16,11 @@ export async function GET(request: NextRequest) {
 
   const host = request.headers.get('host')
 
+  console.log("host", host);
+  console.log("requestUrl.origin", requestUrl.origin);
+  console.log("requestUrl", requestUrl);
+  console.log("request.headers", request.headers);
+
   const origin = host ? `https://${host}` : requestUrl.origin
 
   return NextResponse.redirect(origin)

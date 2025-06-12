@@ -14,10 +14,9 @@ export async function GET(request: NextRequest) {
     await supabase.auth.exchangeCodeForSession(code)
   }
 
-  // 在 Vercel 部署时，`requestUrl.origin` 可能无法获取正确的 host。
-  // 此时，我们可以使用 Vercel 提供的 `VERCEL_URL` 环境变量来构造正确的重定向地址。
-  const origin = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : requestUrl.origin
+  const host = request.headers.get('host')
 
-  // 重定向到主页
+  const origin = host ? `https://${host}` : requestUrl.origin
+
   return NextResponse.redirect(origin)
 } 

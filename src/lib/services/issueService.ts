@@ -1,5 +1,6 @@
 import { supabase } from '../supabase'
 import type { Database, IssueWithRelations } from '@/types/database'
+import { useUserStore } from '../store/userStore'
 
 type Issue = Database['public']['Tables']['issues']['Row']
 type IssueInsert = Database['public']['Tables']['issues']['Insert']
@@ -183,7 +184,7 @@ export class IssueService {
 
   // 创建问题
   static async createIssue(issue: Omit<IssueInsert, 'reporter_id'>): Promise<Issue> {
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = useUserStore.getState().user
     if (!user) throw new Error('未认证用户')
 
     const { data, error } = await supabase
@@ -276,7 +277,7 @@ export class IssueService {
 
   // 添加问题评论
   static async addComment(issueId: string, content: string): Promise<Database['public']['Tables']['issue_comments']['Row']> {
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = useUserStore.getState().user
     if (!user) throw new Error('未认证用户')
 
     const { data, error } = await supabase
@@ -338,9 +339,7 @@ export class IssueService {
     issues: Omit<IssueInsert, 'created_by' | 'workspace_id'>[],
     workspaceId: string
   ): Promise<Database['public']['Tables']['issues']['Row'][]> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = useUserStore.getState().user
     if (!user) throw new Error('未认证的用户')
 
     const issuesToInsert = issues.map((issue) => ({

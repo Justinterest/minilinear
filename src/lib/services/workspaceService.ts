@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import { IssueService } from './issueService'
 import { IssueStatus } from '@/types/database'
+import { useUserStore } from '../store/userStore'
 
 export interface Workspace {
   id: string
@@ -32,7 +33,7 @@ const onboardingIssues = [
 
 export class WorkspaceService {
   static async getUserWorkspaces(): Promise<Workspace[]> {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = useUserStore.getState().user
     if (!user) return [];
 
     try {

@@ -16,7 +16,7 @@ export default function Home() {
     }
   }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || user) {
     return <LoadingOverlay visible />;
   }
 
